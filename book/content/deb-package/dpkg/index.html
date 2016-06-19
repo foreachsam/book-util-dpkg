@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+
+<title>dpkg - dpkg 使用筆記</title>
+
+
+<link rel="canonical" href="https://foreachsam.github.io/book-util-dpkg/book/content/deb-package/dpkg/">
+
+
+<meta name="author" content="foreachsam">
+
+
+<meta property="og:url" content="https://foreachsam.github.io/book-util-dpkg/book/content/deb-package/dpkg/">
+<meta property="og:title" content="dpkg - dpkg 使用筆記">
+
+<meta name="apple-mobile-web-app-title" content="dpkg - dpkg 使用筆記">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">  
+<link rel="shortcut icon" type="image/x-icon" href="../../../../../../assets/images/favicon.ico">
+<link rel="icon" type="image/x-icon" href="../../../../../../assets/images/favicon.ico">
+<style>
+	@font-face {
+		font-family: 'Icon';
+		src: url('../../../assets/fonts/icon.eot?52m981');
+		src: url('../../../assets/fonts/icon.eot?#iefix52m981') format('embedded-opentype'),
+		url('../../../assets/fonts/icon.woff?52m981') format('woff'),
+		url('../../../assets/fonts/icon.ttf?52m981') format('truetype'),
+		url('../../../assets/fonts/icon.svg?52m981#icon') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+</style>
+<link rel="stylesheet" href="../../../assets/stylesheets/application-0dac3e5884.css"> 
+<link rel="stylesheet" href="../../../assets/stylesheets/palettes-05ab2406df.css">     
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Mono">
+<style>
+	body,
+	input {
+		font-family: 'Roboto',
+		Helvetica,
+		Arial,
+		sans-serif;
+	}
+
+	pre,
+	code {
+		font-family: 'Roboto Mono',
+		'Courier New',
+		'Courier',
+		monospace;
+	}
+</style>
+ 
+<script src="../../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+
+
+</head>
+
+
+  
+
+<body class="palette-primary-pink palette-accent-light-pink">
+	
+	<div class="backdrop">
+		<div class="backdrop-paper"></div>
+	</div>
+	<input class="toggle" type="checkbox" id="toggle-drawer">
+	<input class="toggle" type="checkbox" id="toggle-search">
+	<label class="toggle-button overlay" for="toggle-drawer"></label>
+	<header class="header">
+		<nav aria-label="Header">
+	<div class="bar default">
+		<div class="button button-menu" role="button" aria-label="Menu">
+			<label class="toggle-button icon icon-menu" for="toggle-drawer">
+				<span></span>
+			</label>
+		</div>
+		<div class="stretch">
+			<div class="title">
+				
+				<span class="path">
+            
+              
+                deb package <i class="icon icon-link"></i>
+              
+            
+          </span>  dpkg
+			</div>
+		</div>
+		  
+		<div class="button button-github" role="button" aria-label="GitHub">
+			<a href="https://github.com/foreachsam/book-util-dpkg" title="@foreachsam/book-util-dpkg on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+		</div>
+		
+		<div class="button button-search" role="button" aria-label="Search">
+			<label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+		</div>
+	</div>
+	<div class="bar search">
+		<div class="button button-close" role="button" aria-label="Close">
+			<label class="toggle-button icon icon-back" for="toggle-search"></label>
+		</div>
+		<div class="stretch">
+			<div class="field">
+				<input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+			</div>
+		</div>
+		<div class="button button-reset" role="button" aria-label="Search">
+			<button class="toggle-button icon icon-close" id="reset-search"></button>
+		</div>
+	</div>
+</nav>
+	</header>
+	<main class="main">
+		
+		<div class="drawer">
+			<nav aria-label="Navigation">
+
+	<a href="https://foreachsam.github.io/book-util-dpkg/book" class="project" title="dpkg 使用筆記">
+		<div class="banner">
+
+			<div class="name">
+				<strong>dpkg 使用筆記<span class="version"></span></strong>
+
+			</div>
+		</div>
+	</a>
+	<div class="scrollable">
+		<div class="wrapper">
+
+			<div class="toc">
+				<ul>
+
+	
+<li>
+	<div itemscope itemtype="http://schema.org/Article">
+		<a class="" title="首頁" href="../../.." itemprop="url">
+			首頁
+    	</a>
+	</div>
+	
+</li>
+
+
+	
+<li>
+	<span class="section">參考文件</span>
+	<ul>
+		
+
+			
+<li>
+	<div itemscope itemtype="http://schema.org/Article">
+		<a class="" title="manual" href="../../reference/manual/" itemprop="url">
+			manual
+    	</a>
+	</div>
+	
+</li>
+
+
+		
+	</ul>
+</li>
+
+
+	
+<li>
+	<span class="section">deb package</span>
+	<ul>
+		
+
+			
+<li>
+	<div itemscope itemtype="http://schema.org/Article">
+		<a class="" title="index" href="../" itemprop="url">
+			index
+    	</a>
+	</div>
+	
+</li>
+
+
+		
+
+			
+<li>
+	<div itemscope itemtype="http://schema.org/Article">
+		<a class="current" title="dpkg" href="./" itemprop="url">
+			dpkg
+    	</a>
+	</div>
+	    
+	<ul>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="下載套件" href="#_1" >
+                	下載套件
+				</a>
+			</div>
+		</li>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="解開套件" href="#_2" >
+                	解開套件
+				</a>
+			</div>
+		</li>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="觀看資料夾結構" href="#_3" >
+                	觀看資料夾結構
+				</a>
+			</div>
+		</li>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="manpage" href="#manpage" >
+                	manpage
+				</a>
+			</div>
+		</li>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="下載 Source Package" href="#source-package" >
+                	下載 Source Package
+				</a>
+			</div>
+		</li>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="套件資訊" href="#_4" >
+                	套件資訊
+				</a>
+			</div>
+		</li>
+		
+		<li class="anchor" >
+			<div itemscope itemtype="http://schema.org/Article">
+				<a title="源碼套件資訊" href="#_5" >
+                	源碼套件資訊
+				</a>
+			</div>
+		</li>
+		
+	</ul>
+	 
+</li>
+
+
+		
+	</ul>
+</li>
+
+
+	
+<li>
+	<span class="section">command</span>
+	<ul>
+		
+
+			
+<li>
+	<div itemscope itemtype="http://schema.org/Article">
+		<a class="" title="dpkg" href="../../command/dpkg/" itemprop="url">
+			dpkg
+    	</a>
+	</div>
+	
+</li>
+
+
+		
+	</ul>
+</li>
+
+
+				</ul>
+
+				<hr>
+				<span class="section">The author</span>
+				<ul>
+	
+					<li>
+						<a href="https://foreachsam.github.io/" target="_blank" title="foreachsam">
+                  			foreachsam
+            			</a>
+					</li>
+	
+				</ul>
+
+			</div>
+		</div>
+	</div>
+</nav>
+		</div>
+		<article class="article">
+			<div class="wrapper">
+				 <h1 id="dpkg">dpkg 套件探索</h1>
+<h2 id="_1">下載套件</h2>
+<p>下載「<a href="http://packages.ubuntu.com/xenial/dpkg">dpkg</a>」這個套件。</p>
+<pre class="code"><code class="language-sh">$ apt download dpkg</code></pre>
+
+
+<h2 id="_2">解開套件</h2>
+<p>解開「dpkg_1.18.4ubuntu1.1_amd64.deb」</p>
+<pre class="code"><code class="language-sh">$ dpkg -x dpkg_1.18.4ubuntu1.1_amd64.deb dpkg</code></pre>
+
+
+<h2 id="_3">觀看資料夾結構</h2>
+<p>執行</p>
+<pre class="code"><code class="language-sh">$ tree dpkg</code></pre>
+
+
+<p>顯示</p>
+<pre class="code"><code>dpkg
+├── etc
+│   ├── alternatives
+│   │   └── README
+│   ├── cron.daily
+│   │   └── dpkg
+│   ├── dpkg
+│   │   ├── dpkg.cfg
+│   │   └── dpkg.cfg.d
+│   └── logrotate.d
+│       └── dpkg
+├── sbin
+│   └── start-stop-daemon
+├── usr
+│   ├── bin
+│   │   ├── dpkg
+│   │   ├── dpkg-deb
+│   │   ├── dpkg-divert
+│   │   ├── dpkg-maintscript-helper
+│   │   ├── dpkg-query
+│   │   ├── dpkg-split
+│   │   ├── dpkg-statoverride
+│   │   ├── dpkg-trigger
+│   │   └── update-alternatives
+│   ├── sbin
+│   │   ├── dpkg-divert -&gt; ../bin/dpkg-divert
+│   │   ├── dpkg-statoverride -&gt; ../bin/dpkg-statoverride
+│   │   └── update-alternatives -&gt; ../bin/update-alternatives
+│   └── share
+│       ├── doc
+│       │   └── dpkg
+│       │       ├── AUTHORS
+│       │       ├── changelog.Debian.gz
+│       │       ├── copyright
+│       │       ├── README.feature-removal-schedule.gz
+│       │       ├── THANKS.gz
+│       │       └── usertags.gz
+│       ├── dpkg
+│       │   ├── abitable
+│       │   ├── cputable
+│       │   ├── ostable
+│       │   └── triplettable
+│       ├── lintian
+│       │   └── overrides
+│       │       └── dpkg
+│       ├── locale
+│       │   ├── ast
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── bs
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ca
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── cs
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── da
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── de
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── dz
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── el
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── eo
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── es
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── et
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── eu
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── fr
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── gl
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── hu
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── id
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── it
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ja
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── km
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ko
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ku
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── lt
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── mr
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── nb
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ne
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── nl
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── nn
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── pa
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── pl
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── pt
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── pt_BR
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ro
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── ru
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── sk
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── sv
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── th
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── tl
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── tr
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── vi
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   ├── zh_CN
+│       │   │   └── LC_MESSAGES
+│       │   │       └── dpkg.mo
+│       │   └── zh_TW
+│       │       └── LC_MESSAGES
+│       │           └── dpkg.mo
+│       └── man
+│           ├── de
+│           │   ├── man1
+│           │   │   ├── dpkg.1.gz
+│           │   │   ├── dpkg-deb.1.gz
+│           │   │   ├── dpkg-divert.1.gz
+│           │   │   ├── dpkg-maintscript-helper.1.gz
+│           │   │   ├── dpkg-query.1.gz
+│           │   │   ├── dpkg-split.1.gz
+│           │   │   ├── dpkg-statoverride.1.gz
+│           │   │   ├── dpkg-trigger.1.gz
+│           │   │   └── update-alternatives.1.gz
+│           │   ├── man5
+│           │   │   └── dpkg.cfg.5.gz
+│           │   └── man8
+│           │       └── start-stop-daemon.8.gz
+│           ├── es
+│           │   ├── man1
+│           │   │   ├── dpkg-divert.1.gz
+│           │   │   ├── dpkg-split.1.gz
+│           │   │   ├── dpkg-trigger.1.gz
+│           │   │   └── update-alternatives.1.gz
+│           │   ├── man5
+│           │   │   └── dpkg.cfg.5.gz
+│           │   └── man8
+│           │       └── start-stop-daemon.8.gz
+│           ├── fr
+│           │   ├── man1
+│           │   │   ├── dpkg-deb.1.gz
+│           │   │   ├── dpkg-divert.1.gz
+│           │   │   ├── dpkg-maintscript-helper.1.gz
+│           │   │   ├── dpkg-query.1.gz
+│           │   │   ├── dpkg-split.1.gz
+│           │   │   ├── dpkg-statoverride.1.gz
+│           │   │   ├── dpkg-trigger.1.gz
+│           │   │   └── update-alternatives.1.gz
+│           │   ├── man5
+│           │   │   └── dpkg.cfg.5.gz
+│           │   └── man8
+│           │       └── start-stop-daemon.8.gz
+│           ├── hu
+│           │   └── man5
+│           │       └── dpkg.cfg.5.gz
+│           ├── it
+│           │   ├── man1
+│           │   │   ├── dpkg-deb.1.gz
+│           │   │   ├── dpkg-maintscript-helper.1.gz
+│           │   │   ├── dpkg-query.1.gz
+│           │   │   ├── dpkg-split.1.gz
+│           │   │   ├── dpkg-statoverride.1.gz
+│           │   │   └── update-alternatives.1.gz
+│           │   ├── man5
+│           │   │   └── dpkg.cfg.5.gz
+│           │   └── man8
+│           │       └── start-stop-daemon.8.gz
+│           ├── ja
+│           │   ├── man1
+│           │   │   ├── dpkg-divert.1.gz
+│           │   │   ├── dpkg-split.1.gz
+│           │   │   ├── dpkg-trigger.1.gz
+│           │   │   └── update-alternatives.1.gz
+│           │   ├── man5
+│           │   │   └── dpkg.cfg.5.gz
+│           │   └── man8
+│           │       └── start-stop-daemon.8.gz
+│           ├── man1
+│           │   ├── dpkg.1.gz
+│           │   ├── dpkg-deb.1.gz
+│           │   ├── dpkg-divert.1.gz
+│           │   ├── dpkg-maintscript-helper.1.gz
+│           │   ├── dpkg-query.1.gz
+│           │   ├── dpkg-split.1.gz
+│           │   ├── dpkg-statoverride.1.gz
+│           │   ├── dpkg-trigger.1.gz
+│           │   └── update-alternatives.1.gz
+│           ├── man5
+│           │   └── dpkg.cfg.5.gz
+│           ├── man8
+│           │   └── start-stop-daemon.8.gz
+│           ├── pl
+│           │   ├── man1
+│           │   │   ├── dpkg-divert.1.gz
+│           │   │   ├── dpkg-split.1.gz
+│           │   │   ├── dpkg-trigger.1.gz
+│           │   │   └── update-alternatives.1.gz
+│           │   ├── man5
+│           │   │   └── dpkg.cfg.5.gz
+│           │   └── man8
+│           │       └── start-stop-daemon.8.gz
+│           └── sv
+│               ├── man1
+│               │   ├── dpkg-deb.1.gz
+│               │   ├── dpkg-divert.1.gz
+│               │   ├── dpkg-maintscript-helper.1.gz
+│               │   ├── dpkg-query.1.gz
+│               │   ├── dpkg-split.1.gz
+│               │   ├── dpkg-statoverride.1.gz
+│               │   ├── dpkg-trigger.1.gz
+│               │   └── update-alternatives.1.gz
+│               ├── man5
+│               │   └── dpkg.cfg.5.gz
+│               └── man8
+│                   └── start-stop-daemon.8.gz
+└── var
+    └── lib
+        └── dpkg
+            ├── alternatives
+            ├── info
+            ├── parts
+            └── updates
+
+140 directories, 138 files</code></pre>
+
+
+<p>若有安裝這個套件的話，可執行</p>
+<pre class="code"><code class="language-sh">$ dpkg -L dpkg</code></pre>
+
+
+<p>顯示</p>
+<pre class="code"><code>/.
+/sbin
+/sbin/start-stop-daemon
+/usr
+/usr/bin
+/usr/bin/dpkg-maintscript-helper
+/usr/bin/dpkg
+/usr/bin/dpkg-trigger
+/usr/bin/dpkg-divert
+/usr/bin/update-alternatives
+/usr/bin/dpkg-query
+/usr/bin/dpkg-statoverride
+/usr/bin/dpkg-deb
+/usr/bin/dpkg-split
+/usr/sbin
+/usr/share
+/usr/share/dpkg
+/usr/share/dpkg/abitable
+/usr/share/dpkg/triplettable
+/usr/share/dpkg/cputable
+/usr/share/dpkg/ostable
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/dpkg
+/usr/share/locale
+/usr/share/locale/mr
+/usr/share/locale/mr/LC_MESSAGES
+/usr/share/locale/mr/LC_MESSAGES/dpkg.mo
+/usr/share/locale/nb
+/usr/share/locale/nb/LC_MESSAGES
+/usr/share/locale/nb/LC_MESSAGES/dpkg.mo
+/usr/share/locale/dz
+/usr/share/locale/dz/LC_MESSAGES
+/usr/share/locale/dz/LC_MESSAGES/dpkg.mo
+/usr/share/locale/th
+/usr/share/locale/th/LC_MESSAGES
+/usr/share/locale/th/LC_MESSAGES/dpkg.mo
+/usr/share/locale/pa
+/usr/share/locale/pa/LC_MESSAGES
+/usr/share/locale/pa/LC_MESSAGES/dpkg.mo
+/usr/share/locale/pl
+/usr/share/locale/pl/LC_MESSAGES
+/usr/share/locale/pl/LC_MESSAGES/dpkg.mo
+/usr/share/locale/de
+/usr/share/locale/de/LC_MESSAGES
+/usr/share/locale/de/LC_MESSAGES/dpkg.mo
+/usr/share/locale/el
+/usr/share/locale/el/LC_MESSAGES
+/usr/share/locale/el/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ne
+/usr/share/locale/ne/LC_MESSAGES
+/usr/share/locale/ne/LC_MESSAGES/dpkg.mo
+/usr/share/locale/vi
+/usr/share/locale/vi/LC_MESSAGES
+/usr/share/locale/vi/LC_MESSAGES/dpkg.mo
+/usr/share/locale/id
+/usr/share/locale/id/LC_MESSAGES
+/usr/share/locale/id/LC_MESSAGES/dpkg.mo
+/usr/share/locale/pt
+/usr/share/locale/pt/LC_MESSAGES
+/usr/share/locale/pt/LC_MESSAGES/dpkg.mo
+/usr/share/locale/tl
+/usr/share/locale/tl/LC_MESSAGES
+/usr/share/locale/tl/LC_MESSAGES/dpkg.mo
+/usr/share/locale/eu
+/usr/share/locale/eu/LC_MESSAGES
+/usr/share/locale/eu/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ru
+/usr/share/locale/ru/LC_MESSAGES
+/usr/share/locale/ru/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ca
+/usr/share/locale/ca/LC_MESSAGES
+/usr/share/locale/ca/LC_MESSAGES/dpkg.mo
+/usr/share/locale/hu
+/usr/share/locale/hu/LC_MESSAGES
+/usr/share/locale/hu/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ast
+/usr/share/locale/ast/LC_MESSAGES
+/usr/share/locale/ast/LC_MESSAGES/dpkg.mo
+/usr/share/locale/da
+/usr/share/locale/da/LC_MESSAGES
+/usr/share/locale/da/LC_MESSAGES/dpkg.mo
+/usr/share/locale/eo
+/usr/share/locale/eo/LC_MESSAGES
+/usr/share/locale/eo/LC_MESSAGES/dpkg.mo
+/usr/share/locale/bs
+/usr/share/locale/bs/LC_MESSAGES
+/usr/share/locale/bs/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ko
+/usr/share/locale/ko/LC_MESSAGES
+/usr/share/locale/ko/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ku
+/usr/share/locale/ku/LC_MESSAGES
+/usr/share/locale/ku/LC_MESSAGES/dpkg.mo
+/usr/share/locale/km
+/usr/share/locale/km/LC_MESSAGES
+/usr/share/locale/km/LC_MESSAGES/dpkg.mo
+/usr/share/locale/cs
+/usr/share/locale/cs/LC_MESSAGES
+/usr/share/locale/cs/LC_MESSAGES/dpkg.mo
+/usr/share/locale/it
+/usr/share/locale/it/LC_MESSAGES
+/usr/share/locale/it/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ro
+/usr/share/locale/ro/LC_MESSAGES
+/usr/share/locale/ro/LC_MESSAGES/dpkg.mo
+/usr/share/locale/zh_CN
+/usr/share/locale/zh_CN/LC_MESSAGES
+/usr/share/locale/zh_CN/LC_MESSAGES/dpkg.mo
+/usr/share/locale/sk
+/usr/share/locale/sk/LC_MESSAGES
+/usr/share/locale/sk/LC_MESSAGES/dpkg.mo
+/usr/share/locale/pt_BR
+/usr/share/locale/pt_BR/LC_MESSAGES
+/usr/share/locale/pt_BR/LC_MESSAGES/dpkg.mo
+/usr/share/locale/ja
+/usr/share/locale/ja/LC_MESSAGES
+/usr/share/locale/ja/LC_MESSAGES/dpkg.mo
+/usr/share/locale/gl
+/usr/share/locale/gl/LC_MESSAGES
+/usr/share/locale/gl/LC_MESSAGES/dpkg.mo
+/usr/share/locale/fr
+/usr/share/locale/fr/LC_MESSAGES
+/usr/share/locale/fr/LC_MESSAGES/dpkg.mo
+/usr/share/locale/et
+/usr/share/locale/et/LC_MESSAGES
+/usr/share/locale/et/LC_MESSAGES/dpkg.mo
+/usr/share/locale/nn
+/usr/share/locale/nn/LC_MESSAGES
+/usr/share/locale/nn/LC_MESSAGES/dpkg.mo
+/usr/share/locale/tr
+/usr/share/locale/tr/LC_MESSAGES
+/usr/share/locale/tr/LC_MESSAGES/dpkg.mo
+/usr/share/locale/sv
+/usr/share/locale/sv/LC_MESSAGES
+/usr/share/locale/sv/LC_MESSAGES/dpkg.mo
+/usr/share/locale/nl
+/usr/share/locale/nl/LC_MESSAGES
+/usr/share/locale/nl/LC_MESSAGES/dpkg.mo
+/usr/share/locale/zh_TW
+/usr/share/locale/zh_TW/LC_MESSAGES
+/usr/share/locale/zh_TW/LC_MESSAGES/dpkg.mo
+/usr/share/locale/lt
+/usr/share/locale/lt/LC_MESSAGES
+/usr/share/locale/lt/LC_MESSAGES/dpkg.mo
+/usr/share/locale/es
+/usr/share/locale/es/LC_MESSAGES
+/usr/share/locale/es/LC_MESSAGES/dpkg.mo
+/usr/share/doc
+/usr/share/doc/dpkg
+/usr/share/doc/dpkg/README.feature-removal-schedule.gz
+/usr/share/doc/dpkg/AUTHORS
+/usr/share/doc/dpkg/THANKS.gz
+/usr/share/doc/dpkg/usertags.gz
+/usr/share/doc/dpkg/copyright
+/usr/share/doc/dpkg/changelog.Debian.gz
+/usr/share/man
+/usr/share/man/pl
+/usr/share/man/pl/man5
+/usr/share/man/pl/man5/dpkg.cfg.5.gz
+/usr/share/man/pl/man8
+/usr/share/man/pl/man8/start-stop-daemon.8.gz
+/usr/share/man/pl/man1
+/usr/share/man/pl/man1/dpkg-split.1.gz
+/usr/share/man/pl/man1/update-alternatives.1.gz
+/usr/share/man/pl/man1/dpkg-divert.1.gz
+/usr/share/man/pl/man1/dpkg-trigger.1.gz
+/usr/share/man/de
+/usr/share/man/de/man5
+/usr/share/man/de/man5/dpkg.cfg.5.gz
+/usr/share/man/de/man8
+/usr/share/man/de/man8/start-stop-daemon.8.gz
+/usr/share/man/de/man1
+/usr/share/man/de/man1/dpkg-split.1.gz
+/usr/share/man/de/man1/dpkg-deb.1.gz
+/usr/share/man/de/man1/dpkg-query.1.gz
+/usr/share/man/de/man1/dpkg.1.gz
+/usr/share/man/de/man1/dpkg-maintscript-helper.1.gz
+/usr/share/man/de/man1/update-alternatives.1.gz
+/usr/share/man/de/man1/dpkg-divert.1.gz
+/usr/share/man/de/man1/dpkg-statoverride.1.gz
+/usr/share/man/de/man1/dpkg-trigger.1.gz
+/usr/share/man/man5
+/usr/share/man/man5/dpkg.cfg.5.gz
+/usr/share/man/man8
+/usr/share/man/man8/start-stop-daemon.8.gz
+/usr/share/man/hu
+/usr/share/man/hu/man5
+/usr/share/man/hu/man5/dpkg.cfg.5.gz
+/usr/share/man/it
+/usr/share/man/it/man5
+/usr/share/man/it/man5/dpkg.cfg.5.gz
+/usr/share/man/it/man8
+/usr/share/man/it/man8/start-stop-daemon.8.gz
+/usr/share/man/it/man1
+/usr/share/man/it/man1/dpkg-split.1.gz
+/usr/share/man/it/man1/dpkg-deb.1.gz
+/usr/share/man/it/man1/dpkg-query.1.gz
+/usr/share/man/it/man1/dpkg-maintscript-helper.1.gz
+/usr/share/man/it/man1/update-alternatives.1.gz
+/usr/share/man/it/man1/dpkg-statoverride.1.gz
+/usr/share/man/ja
+/usr/share/man/ja/man5
+/usr/share/man/ja/man5/dpkg.cfg.5.gz
+/usr/share/man/ja/man8
+/usr/share/man/ja/man8/start-stop-daemon.8.gz
+/usr/share/man/ja/man1
+/usr/share/man/ja/man1/dpkg-split.1.gz
+/usr/share/man/ja/man1/update-alternatives.1.gz
+/usr/share/man/ja/man1/dpkg-divert.1.gz
+/usr/share/man/ja/man1/dpkg-trigger.1.gz
+/usr/share/man/fr
+/usr/share/man/fr/man5
+/usr/share/man/fr/man5/dpkg.cfg.5.gz
+/usr/share/man/fr/man8
+/usr/share/man/fr/man8/start-stop-daemon.8.gz
+/usr/share/man/fr/man1
+/usr/share/man/fr/man1/dpkg-split.1.gz
+/usr/share/man/fr/man1/dpkg-deb.1.gz
+/usr/share/man/fr/man1/dpkg-query.1.gz
+/usr/share/man/fr/man1/dpkg-maintscript-helper.1.gz
+/usr/share/man/fr/man1/update-alternatives.1.gz
+/usr/share/man/fr/man1/dpkg-divert.1.gz
+/usr/share/man/fr/man1/dpkg-statoverride.1.gz
+/usr/share/man/fr/man1/dpkg-trigger.1.gz
+/usr/share/man/man1
+/usr/share/man/man1/dpkg-split.1.gz
+/usr/share/man/man1/dpkg-deb.1.gz
+/usr/share/man/man1/dpkg-query.1.gz
+/usr/share/man/man1/dpkg.1.gz
+/usr/share/man/man1/dpkg-maintscript-helper.1.gz
+/usr/share/man/man1/update-alternatives.1.gz
+/usr/share/man/man1/dpkg-divert.1.gz
+/usr/share/man/man1/dpkg-statoverride.1.gz
+/usr/share/man/man1/dpkg-trigger.1.gz
+/usr/share/man/sv
+/usr/share/man/sv/man5
+/usr/share/man/sv/man5/dpkg.cfg.5.gz
+/usr/share/man/sv/man8
+/usr/share/man/sv/man8/start-stop-daemon.8.gz
+/usr/share/man/sv/man1
+/usr/share/man/sv/man1/dpkg-split.1.gz
+/usr/share/man/sv/man1/dpkg-deb.1.gz
+/usr/share/man/sv/man1/dpkg-query.1.gz
+/usr/share/man/sv/man1/dpkg-maintscript-helper.1.gz
+/usr/share/man/sv/man1/update-alternatives.1.gz
+/usr/share/man/sv/man1/dpkg-divert.1.gz
+/usr/share/man/sv/man1/dpkg-statoverride.1.gz
+/usr/share/man/sv/man1/dpkg-trigger.1.gz
+/usr/share/man/es
+/usr/share/man/es/man5
+/usr/share/man/es/man5/dpkg.cfg.5.gz
+/usr/share/man/es/man8
+/usr/share/man/es/man8/start-stop-daemon.8.gz
+/usr/share/man/es/man1
+/usr/share/man/es/man1/dpkg-split.1.gz
+/usr/share/man/es/man1/update-alternatives.1.gz
+/usr/share/man/es/man1/dpkg-divert.1.gz
+/usr/share/man/es/man1/dpkg-trigger.1.gz
+/var
+/var/lib
+/var/lib/dpkg
+/var/lib/dpkg/updates
+/var/lib/dpkg/alternatives
+/var/lib/dpkg/parts
+/var/lib/dpkg/info
+/etc
+/etc/dpkg
+/etc/dpkg/dpkg.cfg
+/etc/dpkg/dpkg.cfg.d
+/etc/alternatives
+/etc/alternatives/README
+/etc/logrotate.d
+/etc/logrotate.d/dpkg
+/etc/cron.daily
+/etc/cron.daily/dpkg
+/usr/sbin/dpkg-divert
+/usr/sbin/update-alternatives
+/usr/sbin/dpkg-statoverride</code></pre>
+
+
+<h2 id="manpage">manpage</h2>
+<p>執行</p>
+<pre class="code"><code class="language-sh">$ dpkg -L dpkg | grep '/man/man.*/'</code></pre>
+
+
+<p>顯示</p>
+<pre class="code"><code>/usr/share/man/man5/dpkg.cfg.5.gz
+/usr/share/man/man8/start-stop-daemon.8.gz
+/usr/share/man/man1/dpkg-split.1.gz
+/usr/share/man/man1/dpkg-deb.1.gz
+/usr/share/man/man1/dpkg-query.1.gz
+/usr/share/man/man1/dpkg.1.gz
+/usr/share/man/man1/dpkg-maintscript-helper.1.gz
+/usr/share/man/man1/update-alternatives.1.gz
+/usr/share/man/man1/dpkg-divert.1.gz
+/usr/share/man/man1/dpkg-statoverride.1.gz
+/usr/share/man/man1/dpkg-trigger.1.gz</code></pre>
+
+
+<ul>
+<li>$ man 5 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man5/dpkg.cfg.5.html">dpkg.cfg</a></li>
+<li>$ man 8 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man8/start-stop-daemon.8.html">start-stop-daemon</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-split.1.html">dpkg-split</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-deb.1.html">dpkg-deb</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-query.1.html">dpkg-query</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg.1.html">dpkg</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-maintscript-helper.1.html">dpkg-maintscript-helper</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/update-alternatives.1.html">update-alternatives</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-divert.1.html">dpkg-divert</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-statoverride.1.html">dpkg-statoverride</a></li>
+<li>$ man 1 <a href="http://manpages.ubuntu.com/manpages/xenial/en/man1/dpkg-trigger.1.html">dpkg-trigger</a></li>
+</ul>
+<h2 id="source-package">下載 Source Package</h2>
+<p>執行</p>
+<pre class="code"><code class="language-sh">$ apt source dpkg</code></pre>
+
+
+<p>會下載「<a href="http://packages.ubuntu.com/source/xenial/dpkg">dpkg</a>」這個「Source Package」</p>
+<h2 id="_4">套件資訊</h2>
+<p>網址: <a href="http://packages.ubuntu.com/xenial/dpkg">http://packages.ubuntu.com/xenial/dpkg</a></p>
+<p>執行</p>
+<pre class="code"><code class="language-sh">$ apt show dpkg</code></pre>
+
+
+<p>顯示</p>
+<pre class="code"><code>Package: dpkg
+Version: 1.18.4ubuntu1.1
+Priority: required
+Essential: yes
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers &lt;ubuntu-devel-discuss@lists.ubuntu.com&gt;
+Original-Maintainer: Dpkg Developers &lt;debian-dpkg@lists.debian.org&gt;
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 6,815 kB
+Pre-Depends: libbz2-1.0, libc6 (&gt;= 2.14), liblzma5 (&gt;= 5.1.1alpha+20120614), libselinux1 (&gt;= 2.3), zlib1g (&gt;= 1:1.1.4), tar (&gt;= 1.23)
+Suggests: apt
+Conflicts: ada-reference-manual (&lt;&lt; 20021112web-4~), asn1-mode (&lt;&lt; 2.7-7~), bogosort (&lt;&lt; 0.4.2-3~), cl-yacc (&lt;&lt; 0.3-3~), cpp-4.1-doc (&lt;&lt; 4.1.2.nf2-4~), cpp-4.2-doc (&lt;&lt; 4.2.4.nf1-4~), gcc-4.1-doc (&lt;&lt; 4.1.2.nf2-4~), gcc-4.2-doc (&lt;&lt; 4.2.4.nf1-4~), gcj-4.1-doc (&lt;&lt; 4.1.2.nf2-4~), gcj-4.2-doc (&lt;&lt; 4.2.4.nf1-4~), gfortran-4.1-doc (&lt;&lt; 4.1.2.nf2-4~), gfortran-4.2-doc (&lt;&lt; 4.2.4.nf1-4~), ggz-docs (&lt;&lt; 0.0.14.1-2~), glame (&lt;&lt; 2.0.1-6~), gnat-4.1-doc (&lt;&lt; 4.1.2.nf2-4~), gnat-4.2-doc (&lt;&lt; 4.2.4.nf1-4~), gtalk (&lt;&lt; 0.99.10-16~), libalogg-dev (&lt;&lt; 1.3.7-2~), libgtk1.2-doc (&lt;&lt; 1.2.10-19~), libnettle-dev (&lt;&lt; 2~), liborbit-dev (&lt;&lt; 0.5.17-12~), libreadline5-dev (&lt;&lt; 5.2-8~), librep-doc (&lt;&lt; 0.90~), mmucl (&lt;&lt; 1.5.2-3~), nxml-mode (&lt;&lt; 20041004-9~), octave3.0-info (&lt;&lt; 1:3.0.5-7+rm), octave3.2-info (&lt;&lt; 3.2.4-12+rm), polgen-doc (&lt;&lt; 1.3-3+rm), r6rs-doc (&lt;&lt; 1.0-2~), serveez-doc (&lt;&lt; 0.1.5-3~), slat (&lt;&lt; 2.0-6~), texlive-base-bin-doc (&lt;&lt; 2007.dfsg.2-9~), ttcn-el (&lt;&lt; 0.6.9-2~), ulog-acctd (&lt;&lt; 0.4.3-3~), xconq-doc (&lt;&lt; 7.4.1-5~), zenirc (&lt;&lt; 2.112.dfsg-1~)
+Breaks: apt (&lt;&lt; 0.7.7~), apt-cudf (&lt;&lt; 3.3~beta1-3~), aptitude (&lt;&lt; 0.4.7-1~), auctex (&lt;&lt; 11.87-3+deb8u1~), ccache (&lt;&lt; 3.1.10-1~), cups (&lt;&lt; 1.7.5-10~), dbus (&lt;&lt; 1.8.12-1ubuntu6~), debian-security-support (&lt;&lt; 2014.10.26~), distcc (&lt;&lt; 3.1-6.1~), doc-base (&lt;&lt; 0.10.5~), dpkg-dev (&lt;&lt; 1.15.8), fontconfig (&lt;&lt; 2.11.1-0ubuntu5~), fusionforge-plugin-mediawiki (&lt;&lt; 5.3.2+20141104-3~), gap-core (&lt;&lt; 4r7p5-2~), gitweb (&lt;&lt; 1:2.1.4-2.1~), grace (&lt;&lt; 1:5.1.24-3~), gxine (&lt;&lt; 0.5.908-3.1~), hoogle (&lt;&lt; 4.2.33-4~), icecc (&lt;&lt; 1.0.1-2~), install-info (&lt;&lt; 5.1.dfsg.1-3~), libapache2-mod-php5 (&lt;&lt; 5.6.4+dfsg-3~), libapache2-mod-php5filter (&lt;&lt; 5.6.4+dfsg-3~), libdpkg-perl (&lt;&lt; 1.15.8), libjs-protoaculous (&lt;&lt; 5~), man-db (&lt;&lt; 2.6.3-6~), mcollective (&lt;&lt; 2.6.0+dfsg-2.1~), php5-fpm (&lt;&lt; 5.6.4+dfsg-3~), pypy (&lt;&lt; 2.4.0+dfsg-3~), readahead-fedora (&lt;&lt; 2:1.5.6-5.2~), software-center (&lt;&lt; 13.10-0ubuntu9~), ufw (&lt;&lt; 0.35-0ubuntu2~), ureadahead (&lt;&lt; 0.100.0-17~), wordpress (&lt;&lt; 4.1+dfsg-1~), xfonts-traditional (&lt;&lt; 1.7~), xine-ui (&lt;&lt; 0.99.9-1.2~)
+Replaces: manpages-it (&lt;&lt; 2.80-4)
+Homepage: https://wiki.debian.org/Teams/Dpkg
+Task: minimal
+Supported: 5y
+Download-Size: 2,083 kB
+APT-Manual-Installed: yes
+APT-Sources: http://tw.archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages
+Description: Debian package management system
+ This package provides the low-level infrastructure for handling the
+ installation and removal of Debian software packages.
+ .
+ For Debian package development tools, install dpkg-dev.
+
+N: There is 1 additional record. Please use the '-a' switch to see it</code></pre>
+
+
+<h2 id="_5">源碼套件資訊</h2>
+<p>網址: <a href="http://packages.ubuntu.com/source/xenial/dpkg">http://packages.ubuntu.com/source/xenial/dpkg</a></p>
+<p>執行</p>
+<pre class="code"><code class="language-sh">$ apt showsrc dpkg</code></pre>
+
+
+<p>顯示</p>
+<pre class="code"><code>Package: dpkg
+Binary: libdpkg-dev, dpkg, dpkg-dev, libdpkg-perl, dselect
+Version: 1.18.4ubuntu1
+Priority: required
+Section: admin
+Maintainer: Ubuntu Developers &lt;ubuntu-devel-discuss@lists.ubuntu.com&gt;
+Original-Maintainer: Dpkg Developers &lt;debian-dpkg@lists.debian.org&gt;
+Build-Depends: dpkg-dev (&gt;= 1.17.14), debhelper (&gt;= 9.20141010), pkg-config, flex, gettext (&gt;= 0.19), po4a (&gt;= 0.41), zlib1g-dev, libbz2-dev, liblzma-dev, libselinux1-dev (&gt;= 1.28-4) [linux-any], libkvm-dev [kfreebsd-any], libncursesw5-dev, libio-string-perl &lt;!nocheck&gt;
+Architecture: any all
+Standards-Version: 3.9.6
+Format: 3.0 (native)
+Directory: pool/main/d/dpkg
+Files:
+ 4f903afe06308321505907a35fa52ab4 2160 dpkg_1.18.4ubuntu1.dsc
+ 4521c02e9008e4feb329d53856e860d9 4373140 dpkg_1.18.4ubuntu1.tar.xz
+Origin: debian
+Uploaders: Guillem Jover &lt;guillem@debian.org&gt;
+Homepage: https://wiki.debian.org/Teams/Dpkg
+Vcs-Browser: https://anonscm.debian.org/cgit/dpkg/dpkg.git
+Vcs-Git: git://anonscm.debian.org/dpkg/dpkg.git
+Package-List:
+ dpkg deb admin required arch=any essential=yes
+ dpkg-dev deb utils optional arch=all
+ dselect deb admin optional arch=any
+ libdpkg-dev deb libdevel optional arch=any
+ libdpkg-perl deb perl optional arch=all
+Checksums-Sha1:
+ 73eb39b7db3bb44372efb63d5b0b1d05db41218b 2160 dpkg_1.18.4ubuntu1.dsc
+ cf278d710a13855b0d565097bb403400ea45e86b 4373140 dpkg_1.18.4ubuntu1.tar.xz
+Checksums-Sha256:
+ 2ee12c52a9d4dc4623c5439e43c60897561f29561d288987b53ffa2a432062dd 2160 dpkg_1.18.4ubuntu1.dsc
+ e0fbadf70fd2917f461aeb2f49d3b697bc3f85346a335c21e0ce334a62a5289e 4373140 dpkg_1.18.4ubuntu1.tar.xz
+
+...略...</code></pre>
+				<aside class="copyright" role="note">
+					 Copyright (c) foreachsam &ndash;  Documentation built with
+					<a href="http://www.mkdocs.org" target="_blank">MkDocs</a> using the
+					<a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a> theme.
+				</aside>
+				
+				<footer class="footer">
+					
+<nav class="pagination" aria-label="Footer">
+	<div class="previous">
+		
+		<a href="../" title="index">
+			<span class="direction">
+            上一頁
+          </span>
+			<div class="page">
+				<div class="button button-previous" role="button" aria-label="Previous">
+					<i class="icon icon-back"></i>
+				</div>
+				<div class="stretch">
+					<div class="title">
+						index
+					</div>
+				</div>
+			</div>
+		</a>
+		
+	</div>
+	<div class="next">
+		
+		<a href="../../command/dpkg/" title="dpkg">
+			<span class="direction">
+            下一頁
+          </span>
+			<div class="page">
+				<div class="stretch">
+					<div class="title">
+						dpkg
+					</div>
+				</div>
+				<div class="button button-next" role="button" aria-label="Next">
+					<i class="icon icon-forward"></i>
+				</div>
+			</div>
+		</a>
+		
+	</div>
+</nav>
+
+				</footer>
+				
+			</div>
+		</article>
+		<div class="results" role="status" aria-live="polite">
+			<div class="scrollable">
+				<div class="wrapper">
+					<div class="meta"></div>
+					<div class="list"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script>
+		var base_url = '../../..';
+		var repo_id = '';
+	</script>
+	<script src="../../../assets/javascripts/application-997097ee0c.js"></script>
+	
+
+
+<script>
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function() {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document,
+		'script', '//www.google-analytics.com/analytics.js', 'ga');
+	/* General initialization */
+	ga('create', 'UA-56999876-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+	/* Track outbound links */
+	var buttons = document.querySelectorAll('a');
+	Array.prototype.map.call(buttons, function(item) {
+		if (item.host != document.location.host) {
+			item.addEventListener('click', function() {
+				var action = item.getAttribute('data-action') || 'follow';
+				ga('send', 'event', 'outbound', action, item.href);
+			});
+		}
+	});
+	/* Register handler to log search on blur */
+	var query = document.querySelector('.query');
+	query.addEventListener('blur', function() {
+		if (this.value) {
+			var path = document.location.pathname;
+			ga('send', 'pageview', path + '?q=' + this.value);
+		}
+	});
+</script>
+
+
+</body>
+
+</html>
